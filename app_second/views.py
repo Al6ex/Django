@@ -42,6 +42,26 @@ def origin_home(request):
 
 
 def todo_detail(request):
+
+    
+    print(request)
+    if request.method == "GET":
+        print("это GET запрос")
+    if request.method == "POST":
+        print("это POST запрос")
+    if request.method == "PUT":
+        print("это PUT запрос")
+    if request.method == "DELETE":
+        print("это DELETE запрос")
+
+    # print("request.method: ", request.method)
+    # print("request.path: ", request.path)
+    # print("request.headers: ", request.headers)
+    # print("request.META: ", request.META)
+    # print("request.data: ", request.data)
+    # print("request.GET: ", request.GET)
+
+
     is_completed = False
     if is_completed:
         pass
