@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, index, about, login
+from .views import home, index, about, login, todo_detail
 
 # тут только "маршруты" - адрес страницы
 urlpatterns = [
@@ -8,4 +8,11 @@ urlpatterns = [
     path('login/', login),
     path('index/', index),
     path('about/', about),
+
+
+    path('todo_detail/', todo_detail),
+
+    # path('todo_create/', idea_create, name='django_idea_create'),
+    # path('todo_detail/<int:todo_id>/', idea_change, name='django_idea_change'),
+    # path('todo_list/', idea_list, name='django_idea_list'),
 ]
