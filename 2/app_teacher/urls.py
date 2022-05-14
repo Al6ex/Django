@@ -12,4 +12,6 @@ urlpatterns = [
     path('todo_detail/<int:todo_id>/', todo_detail, name="todo_detail"),
     path(route='todo_list/', view=logic.todo_list, name="todo_list"),
     path(route='todo_create/', view=logic.todo_create, name="todo_create"),
+    path(route='todo_delete/<int:todo_id>/', view=logic.todo_delete, name="todo_delete"),
+    path(route='todo_update_status/<int:todo_id>/', view=logic.todo_update_status, name="todo_update_status"),
 ]

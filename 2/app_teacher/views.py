@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
+
 from . import models
 
 
@@ -45,3 +47,19 @@ def todo_create(request):
         obj.save()
     context = {}
     return render(request, 'app_teacher/pages/CreateTodo.html', context)
+
+
+def todo_delete(request, todo_id):
+    obj = models.Task.objects.get(id=todo_id)
+    obj.delete()
+    return redirect(reverse('todo_list', args=()))
+
+
+def todo_update_status(request, todo_id):
+    obj = models.Task.objects.get(id=todo_id)
+    if obj.is_completed:
+        obj.is_completed = False
+    else:
+        obj.is_completed = True
+    obj.save()
+    return redirect(reverse('todo_list', args=()))
