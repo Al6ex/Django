@@ -1,28 +1,54 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en" class="h-100">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="just for fun">
-        <meta name="author" content="Andriyenko Bogdan">
-        <meta name="generator" content="Custom">
-    </head>
-    <body class="d-flex flex-column h-100 bg-light">
-        <header>
-            HEADER
-        </header>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/my.css' %}">
+    {% block head %}{% endblock head %}
+<!--    <link rel="stylesheet" href="https://1234">-->
+</head>
+<body class="d-flex flex-column h-100">
+    {% block navbar %}{% endblock navbar %}
+    <div class="flex-shrink-0">
         <main class="flex-shrink-0 bg-light">
             <div class="container-fluid">
                 <div class="container">
                     <div class="container-fluid">
                         <div class="text-center">
                             <div class="col-lg-6 mx-auto">
-                                INDEX
+                                ТЕЛО СТРАНИЦЫ
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-    </body>
+    </div>
+    {% block footer %}{% endblock footer %}
+    <script src="{% static 'js/bootstrap/bootstrap.js' %}"></script>
+</body>
 </html>
+
+
+
+{% extends "app_teacher/base.html" %}
+{% load static %}
+
+{% block main %}
+<main class="flex-shrink-0 bg-light">
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="container-fluid">
+                        <div class="text-center">
+                            <div class="col-lg-6 mx-auto">
+                                ТЕЛО СТРАНИЦЫ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+{% endblock main %}
