@@ -48,7 +48,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'todo_list.urls'
 
@@ -120,3 +124,10 @@ LOGIN_URL = 'login'
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#STATIC_ROOT = Path(BASE_DIR / 'static')
+# STATIC_DIR = Path(BASE_DIR / 'static')
+# STATICFILES_DIRS = [
+#     Path(BASE_DIR / 'static_external'),
+#     Path(BASE_DIR / 'static'),
+# ]
