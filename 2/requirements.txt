@@ -7,3 +7,4 @@ Pillow==9.1.0
 sqlparse==0.4.2
 tzdata==2022.1
 whitenoise==6.1.0
+django-grappelli==3.0.3
