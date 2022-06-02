@@ -8,4 +8,6 @@ pip install django
 
 django-admin startproject settings .
 
+
+
 sh

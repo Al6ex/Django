@@ -1,3 +1,5 @@
+from random import random
+
 import requests
 import json
 import time
@@ -44,10 +46,11 @@ else:
 
 vacancies = []
 
-for i in range(0, 5):
+for i in range(0, 1):
     time.sleep(0.0001)
+    position = "Программист"
     params = {
-        'text': 'NAME:Программист',  # Текст фильтра. В имени должно быть слово "Аналитик"
+        'text': f'NAME:{position}',  # Текст фильтра. В имени должно быть слово "Аналитик"
         'area': 40,  # Поиск ощуществляется по вакансиям города Москва
         'page': i,  # Индекс страницы поиска на HH
         'per_page': 100  # Кол-во вакансий на 1 странице
@@ -72,3 +75,28 @@ for i in vacancies:
         print(error)
 
     print(i["published_at"].split('T'))
+
+# 1 поток выполнения
+# синхронные операции - response = requests.get(url=url) # 2.5 * 10 + логика + 0.5 = 30
+# aсинхронные операции - response = await requests.get(url=url) # 2.5 * 1.1 + логика + 0.5 = 3
+
+from threading import Thread
+from multiprocessing import Process
+
+
+def increase(thread_name="Thread"):
+    index = 1
+    while True:
+        time.sleep(0.1)
+        index += 1
+        print(f"{thread_name} :{index}")
+
+
+for i in range(0, 100):
+    Thread(target=increase, args=(f"Thread {i}",)).start()
+
+print("123")
+
+# N поток выполнения
+# мультипоточная операции - response = await requests.get(url=url) GIL
+# мульпроцессор операции - response = await requests.get(url=url)
