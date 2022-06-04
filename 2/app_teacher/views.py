@@ -1,3 +1,7 @@
+import json
+
+import requests
+from bs4 import BeautifulSoup
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -8,6 +12,8 @@ from django.conf import settings as my_settings
 import openpyxl
 from openpyxl.utils import get_column_letter
 import datetime
+from django.contrib.auth.models import User, Group
+from . import parse
 
 
 # тут только "логика" - функции для обработки и возврат данных
@@ -213,3 +219,70 @@ def admin_page(request):
     context = {
     }
     return render(request, 'app_teacher/pages/AdminPage.html', context)
+
+
+from django.http import JsonResponse
+
+
+def get_users(request):
+    return JsonResponse({"user_count": User.objects.all().count()})
+    # return HttpResponse(User.objects.all().count())
+
+
+def get_values(request):  #
+    return HttpResponse("<h1>Ответ строкой</h1>")  # возвращает строку с HTML вёрстку
+    # return HttpResponse(User.objects.all().count())
+
+
+def get_weather(request):  #
+    url = 'https://www.google.com/search?q=%D0%BF%D0%BE%D0%B3%D0%BE%D0%B4%D0%B0&rlz=1C1IXYC_ruKZ978KZ978&oq=gjujlf&aqs=chrome.1.69i57j0i10i131i433l9.1695j1j7&sourceid=chrome&ie=UTF-8'
+    url = 'https://www.google.com/search?q=gjujlf+fkvf&oq=gjujlf+fkvf&aqs=chrome..69i57j0i10.3059j1j7&sourceid=chrome&ie=UTF-8'
+    response = requests.get(url)  # делаем запрос, возвращаем всю страницу в байтах
+
+    soup = BeautifulSoup(response.content, 'html.parser')  # принимайте страницу в байтах
+
+    weather = soup.findAll(name="div", attrs={"class": "BNeawe iBp4i AP7Wnd"})[0]
+
+    return HttpResponse(weather)  # возвращает строку с HTML вёрстку
+    # return HttpResponse(User.objects.all().count())
+
+
+def get_vacancies(request):
+    context = {
+    }
+    if request.method == "POST":
+        vacancie = request.POST.get("vacancie", "Никто")
+
+        ##################################################
+
+        # 1)  вытащить вакансии с api hh по выбранной вакансии с фронтенда
+
+        params = {
+            'text': f'NAME:{vacancie}',  # Текст фильтра. В имени должно быть слово "Аналитик"
+            'area': 40,  # Поиск ощуществляется по вакансиям города Москва
+            'page': 1,  # Индекс страницы поиска на HH
+            'per_page': 100  # Кол-во вакансий на 1 странице
+        }
+        response = requests.get('https://api.hh.ru/vacancies', params)  # Посылаем запрос к API
+        json_data1 = json.loads(response.content.decode())  # получаем весь объект запроса
+
+        # 2) по необходимости - обработать эти данные
+
+        vacancies = json_data1["items"]
+
+        for i in vacancies:
+            print(i)
+            print("\n\n")
+
+        print(f'длина: {len(vacancies)}')
+
+        # 3) отправить полученные обработанные данные назад во фронтенд
+
+        ##################################################
+
+        print(vacancie)
+        context = {
+            "vacancie": vacancie,
+            "vacancies": vacancies
+        }
+    return render(request, 'app_teacher/pages/VacanciesPage.html', context)
