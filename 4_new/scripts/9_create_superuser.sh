@@ -3,7 +3,7 @@ cd ../
 source env/bin/activate
 
 
-python manage.py createsuperuser --username alex --email ott.alexander.2006@gmail.com
+python manage.py createsuperuser --username Bogdan --email bogdandrienko@gmail.com
 
 
 sh
