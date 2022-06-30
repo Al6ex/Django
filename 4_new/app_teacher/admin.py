@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app_teacher.models import Receipt, ReceiptCategory, ReceiptRating, ReceiptComment
+from app_teacher.models import Receipt, ReceiptCategory, ReceiptRating, ReceiptComment, ReceiptIngredient
 
 # Register your models here.
 
@@ -18,34 +18,44 @@ class ReceiptAdmin(admin.ModelAdmin):
         'image',
         'description',
         'is_completed',
-        'category',
+        'author',
+        'time_to_cook',
+        'instructions',
     )
+    filter_horizontal = ('ingredients', 'category',)  # только для полей формата many_to_many_field
     list_display_links = (  # поля-ссылка
         'title',
         'description',
     )
     list_editable = (  # поля для редактирования объекта на лету
         'is_completed',
-        'category',
+        'author',
+        'time_to_cook',
     )
-    list_filter = (  # поля для редактирования объекта на лету
+    list_filter = (  # поля для фильтрации
         'title',
         'image',
         'description',
         'is_completed',
-        'category',
+        'author',
+        'time_to_cook',
+        'instructions',
     )
     fieldsets = (  # подзаголовки для визуального отделения блоков друг от друга
         ('Основное', {'fields': (
             'title',
             'description',
+            'ingredients',
         )}),
         ('Дополнительно', {'fields': (
             'image',
             'category',
+            'time_to_cook',
+            'instructions',
         )}),
         ('Вспомогательное', {'fields': (
             'is_completed',
+            'author',
         )}),
     )
     search_fields = [  # поле для поиска
@@ -53,13 +63,15 @@ class ReceiptAdmin(admin.ModelAdmin):
         'image',
         'description',
         'is_completed',
-        'category',
+        'author',
+        'time_to_cook',
+        'instructions',
     ]
 
 
 class ReceiptCategoryAdmin(admin.ModelAdmin):
     """
-    Настройки отображения, фильтрации и поиска модели:'Receipt' на панели администратора
+    Настройки отображения, фильтрации и поиска модели:'ReceiptCategory' на панели администратора
     """
 
     list_display = (  # поля для отображения
@@ -83,7 +95,34 @@ class ReceiptCategoryAdmin(admin.ModelAdmin):
     ]
 
 
+class ReceiptIngredientAdmin(admin.ModelAdmin):
+    """
+    Настройки отображения, фильтрации и поиска модели:'ReceiptIngredient' на панели администратора
+    """
+
+    list_display = (  # поля для отображения
+        'name',
+    )
+    list_display_links = (  # поля-ссылка
+        'name',
+    )
+    list_editable = (  # поля для редактирования объекта на лету
+    )
+    list_filter = (  # поля для редактирования объекта на лету
+        'name',
+    )
+    fieldsets = (  # подзаголовки для визуального отделения блоков друг от друга
+        ('Основное', {'fields': (
+            'name',
+        )}),
+    )
+    search_fields = [  # поле для поиска
+        'name',
+    ]
+
 admin.site.register(ReceiptCategory, ReceiptCategoryAdmin)
+admin.site.register(ReceiptIngredient, ReceiptIngredientAdmin)
+# admin.site.register(ReceiptIngredient)
 admin.site.register(Receipt, ReceiptAdmin)
 admin.site.register(ReceiptRating)
 admin.site.register(ReceiptComment)
